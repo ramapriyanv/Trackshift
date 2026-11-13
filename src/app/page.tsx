@@ -1,65 +1,71 @@
-import Image from "next/image";
+import { signIn } from "@/auth";
 
-export default function Home() {
+function TrackShiftLogo({ className }: { className?: string }) {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2.2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      <path d="M7 4v13M7 17l-3.5-3.5M7 17l3.5-3.5" />
+      <path d="M17 20V7M17 7l-3.5 3.5M17 7l3.5 3.5" />
+    </svg>
+  );
+}
+
+function SpotifyMark({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.504 17.307a.748.748 0 0 1-1.03.248c-2.82-1.723-6.37-2.113-10.552-1.158a.748.748 0 1 1-.333-1.459c4.575-1.045 8.502-.595 11.667 1.339.353.216.464.677.248 1.03zm1.469-3.267a.936.936 0 0 1-1.287.31c-3.229-1.985-8.152-2.56-11.972-1.4a.936.936 0 1 1-.544-1.792c4.365-1.325 9.792-.683 13.493 1.595a.936.936 0 0 1 .31 1.287zm.126-3.403C15.23 8.339 8.845 8.128 5.15 9.25a1.123 1.123 0 1 1-.652-2.148c4.24-1.287 11.288-1.039 15.743 1.605a1.123 1.123 0 0 1-1.142 1.93z" />
+    </svg>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
+      {/* Ambient background glow */}
+      <div className="pointer-events-none absolute -top-48 left-1/2 h-[32rem] w-[48rem] -translate-x-1/2 rounded-full bg-spotify/15 blur-[140px]" />
+
+      <div className="relative flex flex-col items-center text-center">
+        <div className="flex items-center gap-3">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-spotify text-black shadow-lg shadow-spotify/30">
+            <TrackShiftLogo className="h-8 w-8" />
+          </span>
+          <h1 className="text-5xl font-extrabold tracking-tight">TrackShift</h1>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <p className="mt-6 max-w-md text-lg text-subtle">
+          Move any song — or group of songs — anywhere in your playlists.
+          No dragging. Preview first, apply when you&apos;re sure.
+        </p>
+
+        <form
+          action={async () => {
+            "use server";
+            await signIn("spotify", { redirectTo: "/app" });
+          }}
+          className="mt-10"
+        >
+          <button
+            type="submit"
+            className="flex items-center gap-3 rounded-full bg-spotify px-8 py-4 text-base font-bold text-black transition hover:scale-[1.04] hover:bg-spotify-bright active:scale-100"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <SpotifyMark className="h-6 w-6" />
+            Continue with Spotify
+          </button>
+        </form>
+
+        <p className="mt-8 text-xs text-subtle/70">
+          TrackShift only reorders playlists you can edit. Nothing is changed
+          without your confirmation.
+        </p>
+      </div>
+    </main>
   );
 }
