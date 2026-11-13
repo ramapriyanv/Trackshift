@@ -28,7 +28,7 @@ export default function PlaylistSidebar({
   }, [playlists, query]);
 
   return (
-    <aside className="flex w-72 shrink-0 flex-col rounded-lg bg-elevated">
+    <aside aria-label="Playlist library" className="flex h-full min-h-0 w-full shrink-0 flex-col rounded-lg bg-elevated xl:w-64 2xl:w-72">
       <div className="px-4 pb-2 pt-4">
         <h2 className="text-base font-bold">Your Library</h2>
         <p className="mt-0.5 text-xs text-subtle">
@@ -44,7 +44,8 @@ export default function PlaylistSidebar({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Filter playlists"
-          className="w-full bg-transparent text-sm outline-none placeholder:text-subtle/60"
+          aria-label="Filter playlists"
+          className="min-w-0 w-full bg-transparent text-base outline-none placeholder:text-subtle/60 xl:text-sm"
         />
       </div>
 

@@ -28,21 +28,21 @@ function SpotifyMark({ className }: { className?: string }) {
 
 export default function LoginPage() {
   return (
-    <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6">
+    <main className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden px-5 py-10 sm:px-6">
       {/* Ambient background glow */}
       <div className="pointer-events-none absolute -top-48 left-1/2 h-[32rem] w-[48rem] -translate-x-1/2 rounded-full bg-spotify/15 blur-[140px]" />
 
       <div className="relative flex flex-col items-center text-center">
         <div className="flex items-center gap-3">
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-spotify text-black shadow-lg shadow-spotify/30">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-spotify text-black shadow-lg shadow-spotify/30 sm:h-14 sm:w-14">
             <TrackShiftLogo className="h-8 w-8" />
           </span>
-          <h1 className="text-5xl font-extrabold tracking-tight">TrackShift</h1>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">TrackShift</h1>
         </div>
 
         <p className="mt-6 max-w-md text-lg text-subtle">
           Move any song — or group of songs — anywhere in your playlists.
-          No dragging. Preview first, apply when you&apos;re sure.
+          Arrange and remove songs, review your changes, then apply when you&apos;re sure.
         </p>
 
         <form
@@ -54,7 +54,7 @@ export default function LoginPage() {
         >
           <button
             type="submit"
-            className="flex items-center gap-3 rounded-full bg-spotify px-8 py-4 text-base font-bold text-black transition hover:scale-[1.04] hover:bg-spotify-bright active:scale-100"
+            className="flex items-center gap-3 rounded-full bg-spotify px-6 py-4 text-base font-bold text-black transition hover:scale-[1.04] hover:bg-spotify-bright active:scale-100 sm:px-8"
           >
             <SpotifyMark className="h-6 w-6" />
             Continue with Spotify
@@ -62,7 +62,7 @@ export default function LoginPage() {
         </form>
 
         <p className="mt-8 text-xs text-subtle/70">
-          TrackShift only reorders playlists you can edit. Nothing is changed
+          TrackShift only changes playlists you can edit. Nothing is changed
           without your confirmation.
         </p>
       </div>

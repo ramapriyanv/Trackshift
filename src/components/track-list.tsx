@@ -39,6 +39,8 @@ interface TrackListProps {
 }
 
 const ROW_HEIGHT = TRACK_ROW_HEIGHT;
+// Hidden metadata columns must not reserve space in the compact phone grid.
+const columns = "grid-cols-[2rem_minmax(0,1fr)_3rem] sm:grid-cols-[3rem_minmax(0,5fr)_minmax(0,3fr)_3rem_3.5rem]";
 
 export default function TrackList({
   tracks,
@@ -113,19 +115,19 @@ export default function TrackList({
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       {/* Column headers */}
-      <div className="grid grid-cols-[3.5rem_minmax(0,5fr)_minmax(0,4fr)_4rem_5rem] items-center gap-3 border-b border-white/10 px-4 pb-2 text-xs font-semibold uppercase tracking-widest text-subtle">
+      <div className={`grid ${columns} items-center gap-2 border-b border-white/10 px-2 pb-2 text-xs font-semibold uppercase tracking-widest text-subtle sm:gap-3 sm:px-4`}>
         <span className="text-right">#</span>
         <span>Title</span>
-        <span className="hidden md:block">Album</span>
-        <span className="hidden lg:block">Year</span>
+        <span className="hidden sm:block">Album</span>
+        <span className="hidden sm:block">Year</span>
         <span className="text-right">Time</span>
       </div>
 
-      {canDrag && <p className="px-4 py-2 text-xs text-subtle">Drag a song or selected group above or below another track, then confirm the preview.</p>}
+      {canDrag && <p className="hidden px-4 py-2 text-xs text-subtle xl:block">Drag a song or selected group above or below another track, then confirm the preview.</p>}
       <div role="status" aria-live="polite" className={dragging ? "px-4 pb-2 text-xs text-spotify-bright" : "sr-only"}>
         {dragging && (dropTarget ? `Move ${dragging.indices.length} song${dragging.indices.length === 1 ? "" : "s"} ${dropTarget.kind} #${dropTarget.anchorIndex + 1} ${tracks[dropTarget.anchorIndex].name}` : `Dragging ${dragging.indices.length} song${dragging.indices.length === 1 ? "" : "s"}. Drop above or below an unselected track.`)}
       </div>
-      <div ref={parentRef} className="min-h-0 flex-1 overflow-y-auto"
+      <div ref={parentRef} aria-label="Playlist tracks" className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain"
         onDragOver={(event) => {
           if (!canDrag || !dragRef.current) return;
           event.preventDefault();
@@ -159,6 +161,7 @@ export default function TrackList({
               <button
                 type="button"
                 aria-pressed={isSelected}
+                aria-label={`${isSelected ? "Deselect" : "Select"} #${originalIndex + 1} ${track.name}`}
                 key={row.key}
                 draggable={canDrag}
                 onDragStart={(event) => {
@@ -174,7 +177,7 @@ export default function TrackList({
                 }}
                 onDragEnd={finishDrag}
                 onClick={(e) => { if (!suppressClick.current && !disabled) onRowClick(originalIndex, row.index, e); }}
-                className={`absolute left-0 top-0 grid w-full select-none grid-cols-[3.5rem_minmax(0,5fr)_minmax(0,4fr)_4rem_5rem] items-center gap-3 rounded px-4 text-left transition-colors ${
+                className={`absolute left-0 top-0 grid w-full select-none ${columns} items-center gap-2 rounded px-2 text-left transition-colors sm:gap-3 sm:px-4 ${
                   isSelected
                     ? "bg-white/15"
                     : isMoved
@@ -196,7 +199,8 @@ export default function TrackList({
                   {originalIndex + 1}
                 </span>
 
-                <span className="flex min-w-0 items-center gap-3">
+                <span className="flex min-w-0 items-center gap-2 sm:gap-3">
+                  <span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] xl:hidden ${isSelected ? "border-spotify bg-spotify text-black" : "border-white/30"}`}>{isSelected ? "✓" : ""}</span>
                   {track.albumImageUrl ? (
                     <Image
                       src={track.albumImageUrl}
@@ -222,20 +226,23 @@ export default function TrackList({
                     <span className={`block truncate text-xs ${metadataHighlights?.artist ? "text-spotify-bright" : "text-subtle"}`}>
                       {track.artists.join(", ") || (track.isLocal ? "Local file" : "—")}
                     </span>
+                    <span className={`block truncate text-[10px] sm:hidden ${metadataHighlights?.album || metadataHighlights?.year ? "text-spotify-bright" : "text-subtle"}`}>
+                      {formatReleaseDate(track.releaseDate)} · {track.album || "Unknown album"}
+                    </span>
                   </span>
                 </span>
 
-                <span className={`hidden truncate text-sm md:block ${metadataHighlights?.album ? "text-spotify-bright" : "text-subtle"}`}>
+                <span className={`hidden truncate text-sm sm:block ${metadataHighlights?.album ? "text-spotify-bright" : "text-subtle"}`}>
                   {track.album}
                 </span>
 
-                <span className={`hidden truncate text-sm tabular-nums lg:block ${metadataHighlights?.year ? "text-spotify-bright" : "text-subtle"}`}>
+                <span className={`hidden truncate text-sm tabular-nums sm:block ${metadataHighlights?.year ? "text-spotify-bright" : "text-subtle"}`}>
                   {formatReleaseDate(track.releaseDate)}
                 </span>
 
                 <span className="flex items-center justify-end gap-2">
                   {isMoved && sourceOrder && (
-                    <span className="rounded-full bg-spotify px-2 py-0.5 text-[10px] font-bold tabular-nums text-black">
+                    <span className="hidden rounded-full bg-spotify px-2 py-0.5 text-[10px] font-bold tabular-nums text-black 2xl:inline">
                       {sourceOrder[originalIndex] + 1} → {originalIndex + 1}
                     </span>
                   )}

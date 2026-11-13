@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
 
@@ -11,6 +11,14 @@ export const metadata: Metadata = {
   title: "TrackShift",
   description:
     "Move any song, anywhere in your Spotify playlists — no dragging required.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#121212",
+  interactiveWidget: "resizes-content",
 };
 
 export default function RootLayout({

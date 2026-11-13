@@ -16,6 +16,7 @@ Spotify sign-in
 ```
 
 - **Selection:** single songs, Shift-click ranges, Ctrl/Cmd-click groups, and all filtered matches. Groups keep their playlist order.
+- **Phones and tablets:** switch between Playlists, Tracks, and Edit. Tap songs to toggle a multi-selection, open Filters for metadata, and use Edit for placement, removal, and batch confirmation. Desktop keeps the three-panel layout and drag-and-drop.
 - **Placement:** top, bottom, before/after a searchable track, or an exact position. Dragging works with filtered results too.
 - **Metadata:** combine artist, album, and release-year filters; use a year such as `2015` or a range such as `2015-2018`.
 - **Batch editing:** undo a selection, undo pending changes, or discard the whole batch before applying.
@@ -70,8 +71,11 @@ Spotify's development-mode allowlist and API quotas still apply after deployment
 npm.cmd test
 npm.cmd run lint
 npm.cmd run build
+npm.cmd run test:e2e
 ```
 
 Tests cover ordering, batch edits, filtering, drag targets, removal safeguards, undo, snapshots, request chunking, and public session token filtering. Test requests use mocked Spotify responses. Verify real edits on a disposable playlist before relying on a deployment.
+
+Browser checks cover 320px and 390px phones, an 820px tablet, and desktop, including rotation, scrolling, tap selection, filtering, destination search, apply, and undo. They use an isolated local test session and mocked APIs on port 3002, never real Spotify edits. On Windows they use installed Google Chrome; elsewhere run `npx playwright install chromium` first.
 
 Trackshift is an independent tool and is not affiliated with Spotify.

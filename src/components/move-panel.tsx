@@ -245,7 +245,7 @@ export default function MovePanel({
     "rounded-md bg-white/10 px-3 py-2 text-sm font-semibold transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-white/10";
 
   return (
-    <aside className="flex w-80 shrink-0 flex-col rounded-lg bg-elevated">
+    <aside aria-label="Edit songs" className="move-panel flex h-full min-h-0 w-full shrink-0 flex-col overflow-y-auto rounded-lg bg-elevated xl:w-80">
       <div className="flex items-center justify-between gap-2 border-b border-white/10 px-4 py-4">
         <h2 className="text-base font-bold">
           Move songs
@@ -310,7 +310,7 @@ export default function MovePanel({
 
       {/* ---- Main state: move controls always visible ------------------- */}
       {tracks && !anchorMode && (
-        <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+        <div className="flex shrink-0 flex-col gap-4 p-4 xl:min-h-0 xl:flex-1">
           {/* Status */}
           <div className="flex items-center justify-between">
             <span
@@ -399,8 +399,8 @@ export default function MovePanel({
             </div>
             {selection.size === 0 && (
               <p className="mt-2 text-xs leading-relaxed text-subtle">
-                Click songs in the playlist to activate — Ctrl+Click to add,
-                Shift+Click for a range.
+                <span className="xl:hidden">Open Tracks and tap songs to select or deselect them. Use filters to select matching groups.</span>
+                <span className="hidden xl:inline">Click songs in the playlist to activate — Ctrl+Click to add, Shift+Click for a range.</span>
               </p>
             )}
           </div>
@@ -435,7 +435,7 @@ export default function MovePanel({
           {/* Selection details OR quick-select suggestions */}
           {selection.size > 0 ? (
             <>
-              <ul className="min-h-0 flex-1 overflow-y-auto rounded-md bg-black/20 p-2">
+              <ul className="max-h-64 overflow-y-auto rounded-md bg-black/20 p-2 xl:min-h-24 xl:flex-1">
                 {selectedIndices.map((i) => (
                   <li
                     key={i}
@@ -451,7 +451,8 @@ export default function MovePanel({
                       type="button"
                       onClick={() => onRemove(i)}
                       title="Remove from selection"
-                      className="shrink-0 text-subtle opacity-0 transition group-hover:opacity-100 hover:text-white"
+                      aria-label={`Deselect ${tracks[i]?.name}`}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center text-subtle transition group-hover:opacity-100 hover:text-white xl:h-auto xl:w-auto xl:opacity-0 xl:focus-visible:opacity-100"
                     >
                       <XIcon className="h-3.5 w-3.5" />
                     </button>
@@ -460,7 +461,7 @@ export default function MovePanel({
               </ul>
             </>
           ) : (
-            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+            <div className="flex shrink-0 flex-col gap-4 xl:min-h-24 xl:flex-1 xl:overflow-y-auto">
               {groups.length === 0 ? (
                 <p className="text-xs text-subtle">
                   No artist or album groups found in this playlist.
@@ -478,7 +479,7 @@ export default function MovePanel({
                       </p>
                       <ul className="flex flex-col gap-1">
                         {list.map((g) => (
-                          <li key={`${g.kind}-${g.name}`}>
+                          <li key={`${g.kind}-${g.name}-${g.indices[0]}`}>
                             <button
                               type="button"
                               onClick={() =>
@@ -509,7 +510,7 @@ export default function MovePanel({
 
       {/* ---- Anchor picking state --------------------------------------- */}
       {tracks && selection.size > 0 && anchorMode && (
-        <div className="flex min-h-0 flex-1 flex-col gap-3 p-4">
+        <div className="flex min-h-80 shrink-0 flex-1 flex-col gap-3 p-4">
           <div className="flex items-center justify-between">
             <span className="text-sm font-bold">
               Move {anchorMode} which song?
@@ -539,13 +540,15 @@ export default function MovePanel({
                 }
               }}
               placeholder="Search songs"
+              aria-label="Search destination songs"
               className="w-full bg-transparent text-sm outline-none placeholder:text-subtle/60"
             />
           </div>
 
           <div
             ref={anchorListRef}
-            className="min-h-0 flex-1 overflow-y-auto rounded-md bg-black/20 p-1"
+            aria-label="Destination songs"
+            className="min-h-48 flex-1 overflow-y-auto overscroll-contain rounded-md bg-black/20 p-1"
           >
             {anchorResults.length === 0 ? (
               <p className="px-3 py-6 text-center text-xs text-subtle">

@@ -66,3 +66,66 @@ body {
 ::selection {
   background: rgba(30, 215, 96, 0.35);
 }
+
+.workspace {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+@media (width < 80rem) {
+  /* Avoid iOS focus zoom and preserve usable room for songs on small screens. */
+  .workspace input {
+    font-size: 16px;
+  }
+
+  .workspace button {
+    touch-action: manipulation;
+  }
+
+  .move-panel button {
+    min-height: 44px;
+  }
+
+  .move-panel > div {
+    flex-shrink: 0;
+  }
+
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-gutter: auto;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Phone landscape and the shorter viewport left by an on-screen keyboard. */
+@media (width < 80rem) and (height < 32rem) {
+  .workspace-header {
+    height: 44px;
+  }
+
+  .playlist-header {
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-top: 8px;
+  }
+
+  .playlist-heading {
+    flex-basis: auto;
+  }
+
+  .playlist-heading h1 {
+    font-size: 20px;
+  }
+
+  .playlist-kicker,
+  .selection-toolbar,
+  .mobile-edit-shortcut {
+    display: none;
+  }
+}
