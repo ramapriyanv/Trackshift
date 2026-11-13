@@ -49,7 +49,7 @@ Open [http://127.0.0.1:3000](http://127.0.0.1:3000). Use this address and port c
 4. Set `AUTH_URL` to that origin and register `https://YOUR-DOMAIN/api/auth/callback/spotify` in the Spotify dashboard. Keep the local callback if you continue local development.
 5. Redeploy after updating environment variables. Use the stable domain for sign-in; preview deployments need their own authentication setup.
 
-The live Trackshift project uses [trackshift-delta.vercel.app](https://trackshift-delta.vercel.app). Forks should use their own Spotify application and credentials.
+The live Trackshift project uses [trackshift-delta.vercel.app](https://trackshift-delta.vercel.app) and deploys automatically from this repository's `master` branch. Production credentials stay in the existing Vercel project's environment settings. Forks should use their own Spotify application and credentials.
 
 ## Configuration
 
